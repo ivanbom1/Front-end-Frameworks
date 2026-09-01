@@ -57,7 +57,7 @@ Automated tests for each exercise live in `tests/` — one file per exercise. Yo
 ## Running the Tests
 
 ```bash
-npm run test:run         # run all tests once
+npm run test:run         # rrun all tests once
 npm run test:run:verbose # run all tests once with per-test detail
 npm run test             # watch mode
 ```
