@@ -38,9 +38,11 @@ describe('Exercise 09 — Optional Chaining and Nullish Coalescing', () => {
 
   describe('2 — tagline fallback with ||', () => {
     it('uses || (not ??) for the fallback', () => {
-      expect(code).toMatch(/movie2\.tagline\s*\|\|/)
-      expect(code).not.toMatch(/movie2\.tagline\s*\?\?/)
-    })
+    const codeWithoutComments = code.replace(/\/\/.*$/gm, '')
+
+    expect(codeWithoutComments).toMatch(/movie2\.tagline\s*\|\|/)
+    expect(codeWithoutComments).not.toMatch(/movie2\.tagline\s*\?\?/)
+  })
 
     it('returns "No tagline" for an empty string tagline', () => {
       expect(__taglineFallback).toBe('No tagline')

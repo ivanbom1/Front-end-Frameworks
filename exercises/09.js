@@ -19,8 +19,8 @@ const movie2 = {
 console.log(movie2.director?.name);
 
 // 2. Display the tagline of movie2, or "No tagline" if it is empty or missing.
-//    Use ||, not . The difference:  only falls back on null/undefined,
-//    so movie2.tagline  "No tagline" would return "" (empty string) instead of "No tagline".
+//    Use ||, not ??. The difference: ?? only falls back on null/undefined,
+//    so movie2.tagline ?? "No tagline" would return "" (empty string) instead of "No tagline".
 //    || falls back on any falsy value (null, undefined, "", 0, false), which is what you want here.
 
 console.log(movie2.tagline || "No tagline");
