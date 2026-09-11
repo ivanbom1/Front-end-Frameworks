@@ -1,4 +1,5 @@
 import MovieList from "./components/MovieList";
+import SearchBar from "./components/SearchBar";
 import { SAMPLE_MOVIES } from "./data/sampleMovies";
 
 const App = () => {
@@ -6,9 +7,8 @@ const App = () => {
     <div className="app-layout">
       <main className="main-container">
         <h1>Movie App</h1>
-        <section>
-          <MovieList movies={SAMPLE_MOVIES} />
-        </section>
+        <SearchBar />
+        <MovieList movies={SAMPLE_MOVIES} />
       </main>
     </div>
   );
