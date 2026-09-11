@@ -1,4 +1,5 @@
 import { Movie } from "../types.ts";
+import { TMDB_IMAGE_BASE } from "../data/sampleMovies";
 
 const MovieCard = ({ movie }: { movie: Movie }) => {
   const { title, poster_path, vote_average, release_date, vote_count } = movie;
@@ -7,7 +8,12 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
   return (
     <article className="movie-card" tabIndex={0} aria-label={title}>
       <div className="poster-wrapper">
-        <img src={poster_path ?? "image.jpeg"} alt={title} className="poster-img" loading="lazy" />
+        <img
+          src={poster_path ? `${TMDB_IMAGE_BASE}${poster_path}` : "image.jpeg"}
+          alt={title}
+          className="poster-img"
+          loading="lazy"
+        />
         <div className="poster-overlay">
           <div className="card-top-badges">
             <span className="rating-badge">
