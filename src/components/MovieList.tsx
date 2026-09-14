@@ -8,9 +8,11 @@ interface MovieListProps {
 const MovieList = ({ movies }: MovieListProps) => {
   return (
     <div className="movies-grid">
-      {movies.map((movie) => (
-        <MovieCard movie={movie} key={movie.id} />
-      ))}
+      {movies.length === 0 ? (
+        <p>No movies found.</p>
+      ) : (
+        movies.map(movie => <MovieCard key={movie.id} movie={movie} />)
+      )}
     </div>
   );
 };
