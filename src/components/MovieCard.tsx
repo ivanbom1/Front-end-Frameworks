@@ -1,12 +1,13 @@
 import { Movie } from "../types.ts";
 import { TMDB_IMAGE_BASE } from "../data/sampleMovies";
 import { useState } from "react";
+import { useGenres } from "../hooks/useGenres.ts";
 
-const MovieCard = ({ movie }: { movie: Movie }) => {
-  const { title, poster_path, vote_average, release_date, vote_count } = movie;
+const MovieCard = ({ movie, genreMap }: { movie: Movie, genreMap: Record<number, string> }) => {
+  const { title, poster_path, vote_average, release_date, vote_count, genre_ids = [] } = movie;
   const year = release_date ? release_date.slice(0, 4) : "—";
   const [isFavourite, setIsFavourite] = useState(false);
-
+  
   return (
     <article className="movie-card" tabIndex={0} aria-label={title}>
       <div className="poster-wrapper">
@@ -45,8 +46,11 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
           <span>{vote_count} votes</span>
         </div>
         <div className="movie-genres-tags">
-          <span className="genre-tag">Adventure</span>
-          <span className="genre-tag">Animation</span>
+          {genre_ids.map((id) =>
+          genreMap[id] ?  (
+            <span key={id} className="genre-tag">{genreMap[id]}</span>
+          ) : null
+          )}
         </div>
       </div>
     </article>
