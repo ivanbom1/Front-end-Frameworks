@@ -9,7 +9,8 @@ type State = {
 
 type Action =
   | { type: "SET_THEME" }
-  | { type: "TOGGLE_FAVOURITE"; payload: Movie };
+  | { type: "TOGGLE_FAVOURITE"; payload: Movie }
+  | { type: "SET_RATING"; payload: { id: number; stars: number}};
 
 const reducer = (state: State, action: Action): State => {
   switch (action.type) {
@@ -22,8 +23,13 @@ const reducer = (state: State, action: Action): State => {
         favorites: exists
           ? state.favorites.filter((m) => m.id !== action.payload.id)
           : [...state.favorites, action.payload],
-      };
-    }
+      }
+    };
+    case "SET_RATING":
+        return {
+            ...state,
+            ratings: { ...state.ratings, [action.payload.id]: action.payload.stars },
+        };
     default:
       return state;
   }
@@ -35,6 +41,9 @@ type AppContextType = {
   favorites: Movie[];
   toggleFavorite: (movie: Movie) => void;
   isFavorite: (id: number) => boolean;
+  ratings: Record<number, number>;
+  setRating: (id: number, stars: number) => void;
+  getRating: (id: number) => number;
 };
 
 const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -47,10 +56,15 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.getItem("cinegrid_favorites") || "[]",
   );
 
-  const [state, dispatch] = useReducer(reducer, {
+  const initialRatings: Record<number, number> = JSON.parse(
+  localStorage.getItem("cinegrid_ratings") || "{}",
+  );
+
+    const [state, dispatch] = useReducer(reducer, {
     theme: initialTheme,
     favorites: initialFavorites,
-  });
+    ratings: initialRatings,
+    });
 
   useEffect(() => {
     localStorage.setItem("cinegrid_theme", state.theme);
@@ -61,12 +75,21 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
     localStorage.setItem("cinegrid_favorites", JSON.stringify(state.favorites));
   }, [state.favorites]);
 
+  useEffect(() => {
+    localStorage.setItem("cinegrid_ratings", JSON.stringify(state.ratings));
+  }, [state.ratings]);
+
   const toggleTheme = () => dispatch({ type: "SET_THEME" });
 
   const toggleFavorite = (movie: Movie) =>
     dispatch({ type: "TOGGLE_FAVOURITE", payload: movie });
 
   const isFavorite = (id: number) => state.favorites.some((m) => m.id === id);
+
+  const setRating = (id: number, stars: number) =>
+    dispatch({ type: "SET_RATING", payload: { id, stars } });
+
+  const getRating = (id: number) => state.ratings[id] ?? 0;
 
   return (
     <AppContext.Provider
@@ -76,6 +99,9 @@ export const AppProvider = ({ children }: { children: React.ReactNode }) => {
         favorites: state.favorites,
         toggleFavorite,
         isFavorite,
+        ratings: state.ratings,
+        setRating,
+        getRating,
       }}
     >
       {children}

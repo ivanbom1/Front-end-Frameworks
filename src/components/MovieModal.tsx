@@ -1,6 +1,6 @@
   import { Movie } from "../types";
   import { getPosterUrl, getBackdropUrl } from "../data/sampleMovies";
-
+  import StarRating from "./StarRating";
 
   type MovieModalProps = {
     movie: Movie;
@@ -23,6 +23,8 @@
 
             <div className="modal-content-details">
                 <h2 className="modal-title" id="modal-movie-title">{movie.title}</h2>
+                <h2 className="modal-title" id="modal-movie-title">{movie.title}</h2>
+                <StarRating movieId={movie.id} />
                 <div className="modal-overview">
                 <h4 className="modal-overview-heading">Overview</h4>
                 <p>{movie.overview || "No plot synopsis available."}</p>
