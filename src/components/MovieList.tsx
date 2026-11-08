@@ -4,9 +4,10 @@ import { useGenres } from "../hooks/useGenres";
 
 interface MovieListProps {
   movies: Movie[];
+  onMovieClick: (movie: Movie) => void;   // 1. add to the type
 }
 
-const MovieList = ({ movies }: MovieListProps) => {
+const MovieList = ({ movies, onMovieClick }: MovieListProps) => {   // 2. receive it
   const { genreMap } = useGenres();
 
   return (
@@ -14,8 +15,14 @@ const MovieList = ({ movies }: MovieListProps) => {
       {movies.length === 0 ? (
         <p>No movies found.</p>
       ) : (
-        movies.map(movie => (
-          <MovieCard key={movie.id} movie={movie} genreMap={genreMap} />))
+        movies.map((movie) => (
+          <MovieCard
+            key={movie.id}
+            movie={movie}
+            genreMap={genreMap}
+            onMovieClick={onMovieClick}   // 3. pass it to the card
+          />
+        ))
       )}
     </div>
   );
