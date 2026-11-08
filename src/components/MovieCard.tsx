@@ -3,7 +3,14 @@ import { TMDB_IMAGE_BASE } from "../data/sampleMovies";
 import { useState } from "react";
 import { useGenres } from "../hooks/useGenres.ts";
 
-const MovieCard = ({ movie, genreMap }: { movie: Movie, genreMap: Record<number, string> }) => {
+type MovieCardProps = {
+  movie: Movie;
+  genreMap?: Record<number, string>;
+  onMovieClick: (movie: Movie) => void;
+};
+
+const MovieCard = ({ movie, genreMap = {}, onMovieClick }: MovieCardProps) => {
+
   const { title, poster_path, vote_average, release_date, vote_count, genre_ids = [] } = movie;
   const year = release_date ? release_date.slice(0, 4) : "—";
   const [isFavourite, setIsFavourite] = useState(false);
@@ -36,7 +43,13 @@ const MovieCard = ({ movie, genreMap }: { movie: Movie, genreMap: Record<number,
               </svg>
             </button>
           </div>
-          <span className="quick-view-hint">View Details</span>
+          <span
+            className="quick-view-hint"
+            onClick={() => onMovieClick(movie)}
+            role="button"
+            tabIndex={0}>
+            View Details
+          </span>
         </div>
       </div>
       <div className="movie-card-info">
