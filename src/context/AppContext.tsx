@@ -4,6 +4,7 @@ import type { Theme, Movie } from "../types";
 type State = {
   theme: Theme;
   favorites: Movie[];
+  ratings: Record<number, number>;
 };
 
 type Action =
